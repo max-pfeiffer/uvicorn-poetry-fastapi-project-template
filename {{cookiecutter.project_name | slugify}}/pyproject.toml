@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "{{cookiecutter.project_name}}"
+version = "{{cookiecutter.project_version}}"
+description = "{{cookiecutter.project_description}}"
+{% if cookiecutter.author_name and cookiecutter.author_email %}
+authors = ["{{cookiecutter.author_name}} <{{cookiecutter.author_email}}>"]
+{% else %}
+authors = []
+{% endif %}
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+uvicorn = {version = "0.17.6", extras = ["standard"]}
+fastapi = "0.75.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "6.2.5"
+pytest-cov = "3.0.0"
+coverage = "6.1.1"
+pylint = "2.13.7"
+black = "22.3.0"
+pre-commit = "2.17.0"
+requests = "2.27.1"
+
+# https://docs.pytest.org/en/latest/reference/customize.html
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+# https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#configuration-via-a-file
+[tool.black]
+line-length = 80
+target-version = ['py39']
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

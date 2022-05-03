@@ -1,0 +1,8 @@
+{
+  "project_name": "Project Name",
+  "project_version": "0.0.0",
+  "project_description": "",
+  "author_name": "",
+  "author_email": "",
+  "_extensions": ["cookiecutter.extensions.SlugifyExtension"]
+}

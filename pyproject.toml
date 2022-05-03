@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "fast-api-micro-service-template"
+version = "0.1.0"
+description = "New template for spinning up a micro service"
+authors = ["Max Pfeiffer <max.pfeiffer@hapimag.com>"]
+
+[tool.poetry.dependencies]
+python = "3.9.*"
+
+[tool.poetry.dev-dependencies]
+cookiecutter = "1.7.3"
+pytest = "7.1.2"
+pytest-cookies = "0.6.1"
+pylint = "2.13.8"
+black = "22.3.0"
+pre-commit = "2.17.0"
+
+# https://docs.pytest.org/en/latest/reference/customize.html
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+[tool.pylint.master]
+ignore-paths = "{{cookiecutter.project_name | slugify}}"
+
+[tool.black]
+line-length = 80
+target-version = ['py39']
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
