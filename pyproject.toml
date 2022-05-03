@@ -22,7 +22,7 @@ testpaths = [
 ]
 
 [tool.pylint.master]
-ignore-paths = "{{cookiecutter.project_name | slugify}}"
+ignore-paths = "{{cookiecutter.project_slug}}"
 
 [tool.black]
 line-length = 80

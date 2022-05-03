@@ -1,5 +1,6 @@
 {
   "project_name": "Project Name",
+  "project_slug": "{{cookiecutter.project_name | slugify}}",
   "project_version": "0.0.0",
   "project_description": "",
   "author_name": "",
