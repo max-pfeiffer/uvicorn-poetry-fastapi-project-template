@@ -1,3 +1,4 @@
+![pipeline workflow](https://github.com/max-pfeiffer/uvicorn-poetry-project-template/actions/workflows/pipeline.yml/badge.svg)
 # uvicorn-poetry-project-template
 [Cookiecutter](https://github.com/cookiecutter/cookiecutter) project template for the
 [uvicorn-poetry Docker image](https://github.com/max-pfeiffer/uvicorn-poetry).

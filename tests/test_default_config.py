@@ -1,7 +1,3 @@
-"""
-Tests default config
-"""
-
 from pathlib import Path
 
 import toml
@@ -14,7 +10,6 @@ def test_default_config(cookies) -> None:
 
     :param cookies: cookies fixture
     """
-    # pylint: disable=duplicate-code
     result: Result = cookies.bake()
 
     assert result.project_path.name == "project-name"
