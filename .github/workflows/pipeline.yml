@@ -25,4 +25,3 @@ jobs:
           source .venv/bin/activate
           export DOCKER_BUILDKIT=1
           pytest
-          pytest --cov=./ --cov-report=xml
