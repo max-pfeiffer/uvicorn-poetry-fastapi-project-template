@@ -1,7 +1,3 @@
-"""
-Tests custom config
-"""
-
 from pathlib import Path
 
 import toml
@@ -14,7 +10,6 @@ def test_custom_config(cookies) -> None:
 
     :param cookies: cookies fixture
     """
-    # pylint: disable=duplicate-code
     result: Result = cookies.bake(
         extra_context={
             "project_name": "Seriously silly pRoject naMe",

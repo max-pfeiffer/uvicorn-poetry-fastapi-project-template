@@ -1,3 +1,4 @@
+![pipeline workflow](https://github.com/max-pfeiffer/uvicorn-poetry-project-template/actions/workflows/pipeline.yml/badge.svg)
 # uvicorn-poetry-project-template
 [Cookiecutter](https://github.com/cookiecutter/cookiecutter) project template for the
 [uvicorn-poetry Docker image](https://github.com/max-pfeiffer/uvicorn-poetry).
@@ -17,4 +18,12 @@ poetry install
 Run application in project directory:
 ```shell
 poetry run uvicorn --workers 1 --host 0.0.0.0 --port 80 app.main:app
+```
+Build the production Docker image:
+```shell
+docker build --target production-image --tag my-application:1.0.0 .
+```
+Run the containerized application:
+```shell
+docker run -it --rm my-application:1.0.0
 ```
