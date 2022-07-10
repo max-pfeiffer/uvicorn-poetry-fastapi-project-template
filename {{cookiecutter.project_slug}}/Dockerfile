@@ -1,8 +1,6 @@
 # Be aware that you need to specify these arguments before the first FROM
 # see: https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-ARG BASE_IMAGE_NAME_AND_TAG=pfeiffermax/uvicorn-poetry:2.0.0-python3.9.11-slim-bullseye
-ARG OFFICIAL_PYTHON_IMAGE
-FROM ${BASE_IMAGE_NAME_AND_TAG} as base-image
+FROM pfeiffermax/uvicorn-poetry:2.0.0-python3.9.11-slim-bullseye as base-image
 
 WORKDIR /application_root
 
@@ -12,7 +10,7 @@ WORKDIR /application_root
 COPY ./poetry.lock ./pyproject.toml /application_root/
 RUN poetry install --no-interaction --no-root --no-dev
 
-FROM ${OFFICIAL_PYTHON_IMAGE} as production-image
+FROM python:3.9.11-slim-bullseye as production-image
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONPATH=/application_root
@@ -39,7 +37,7 @@ USER python_application
 
 CMD ["/application_server/start_uvicorn.sh"]
 
-FROM ${OFFICIAL_PYTHON_IMAGE} as production-image-json-logging
+FROM python:3.9.11-slim-bullseye as production-image-json-logging
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONPATH=/application_root \
