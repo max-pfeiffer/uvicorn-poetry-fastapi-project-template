@@ -30,30 +30,6 @@ CMD ["/application_server/start_uvicorn.sh"]
 # https://docs.docker.com/engine/reference/builder/#expose
 EXPOSE ${APPLICATION_SERVER_PORT}
 
-FROM ${OFFICIAL_PYTHON_IMAGE} as production-image-json-logging
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONPATH=/application_root \
-    UVICORN_LOG_CONFIG=/application_server/logging_configuration_file.yaml \
-    UVICORN_LOG_LEVEL=trace
-
-WORKDIR /application_root
-
-COPY --from=production-dependencies-build-stage /application_root/.venv /application_root/.venv
-COPY --from=production-dependencies-build-stage /application_server/start_uvicorn.sh /application_server/start_uvicorn.sh
-
-# Adding log configuration for Uvicorn
-COPY /application_server/logging_configuration_file.yaml /application_server/logging_configuration_file.yaml
-# Copy application files
-COPY /app /application_root/app/
-
-# Activate entrypoint for running the uvicorn application server
-CMD ["/application_server/start_uvicorn.sh"]
-
-# Document the exposed port which was configured in start_uvicorn.sh
-# https://docs.docker.com/engine/reference/builder/#expose
-EXPOSE ${APPLICATION_SERVER_PORT}
-
 FROM production-dependencies-build-stage as dev-dependencies-build-stage
 
 # install [tool.poetry.dev-dependencies]

@@ -59,6 +59,24 @@ def production_image(
     docker_client.images.remove(image_tag, force=True)
 
 
+@pytest.fixture(scope="session")
+def development_image(
+    docker_client, docker_image_test_project, docker_file_name
+) -> str:
+    path: str = str(docker_image_test_project.project_path)
+    tag: str = str(uuid4())
+
+    image: Image = docker_client.images.build(
+        path=path,
+        dockerfile=docker_file_name,
+        tag=tag,
+        target="development-image",
+    )[0]
+    image_tag: str = image.tags[0]
+    yield image_tag
+    docker_client.images.remove(image_tag, force=True)
+
+
 @pytest.fixture(scope="function")
 def cleaned_up_test_container(docker_client, request) -> None:
     test_container_name: str = request.param
