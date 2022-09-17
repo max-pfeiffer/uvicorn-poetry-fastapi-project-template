@@ -2,7 +2,7 @@
 # see: https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG OFFICIAL_PYTHON_IMAGE=python:3.9.14-slim-bullseye
 ARG APPLICATION_SERVER_PORT=80
-FROM pfeiffermax/uvicorn-poetry:2.1.0-python3.9.14-slim-bullseye as base-image
+FROM pfeiffermax/uvicorn-poetry:2.1.0-python3.9.14-slim-bullseye as production-dependencies-build-stage
 
 # install [tool.poetry.dependencies]
 # this will install virtual environment into /.venv because of POETRY_VIRTUALENVS_IN_PROJECT=true
