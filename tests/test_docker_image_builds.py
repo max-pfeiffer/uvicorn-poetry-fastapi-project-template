@@ -59,3 +59,31 @@ def test_development_image_build(
     sleep(SLEEP_TIME)
     assert test_container is not None
     call_api_endpoints()
+
+
+@pytest.mark.parametrize(
+    "cleaned_up_test_container", [str(uuid4())], indirect=True
+)
+def test_black_test_image_build(
+    docker_client, black_test_image, cleaned_up_test_container
+):
+    api_response: dict = docker_client.containers.run(
+        black_test_image,
+        name=cleaned_up_test_container,
+        ports={"80": "80"},
+        detach=True,
+    ).wait()
+    assert api_response["StatusCode"] == 0
+
+
+@pytest.mark.parametrize(
+    "cleaned_up_test_container", [str(uuid4())], indirect=True
+)
+def test_test_image_build(docker_client, test_image, cleaned_up_test_container):
+    api_response: dict = docker_client.containers.run(
+        test_image,
+        name=cleaned_up_test_container,
+        ports={"80": "80"},
+        detach=True,
+    ).wait()
+    assert api_response["StatusCode"] == 0

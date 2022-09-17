@@ -76,7 +76,7 @@ ENTRYPOINT /entrypoints/black_entrypoint.sh $0 $@
 CMD ["--target-version py39", "--check", " --line-length 80", "."]
 
 # image for running unit tests
-FROM test-base-image as unit-test-image
+FROM test-base-image as test-image
 
 WORKDIR /application_root
 
@@ -87,4 +87,4 @@ ENTRYPOINT /entrypoints/pytest_entrypoint.sh $0 $@
 # You need to use pytest-cov as pytest plugin. Makes life very simple.
 # tests directory is configured in pyproject.toml
 # https://github.com/pytest-dev/pytest-cov
-CMD ["--cov=app", "--cov-report=xml:/test_coverage_reports/unit_tests_coverage.xml"]
+CMD ["--cov=app", "--cov-report=xml:/test_coverage_reports/test_coverage.xml"]

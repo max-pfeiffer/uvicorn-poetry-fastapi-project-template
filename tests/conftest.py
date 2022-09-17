@@ -1,12 +1,10 @@
-from random import randrange
+from subprocess import run, CompletedProcess
 from uuid import uuid4
 
 import docker
 import pytest
-
-from pytest_cookies.plugin import Result
-from subprocess import run, CompletedProcess
 from docker.models.images import Image
+from pytest_cookies.plugin import Result
 
 
 @pytest.fixture(scope="session")
@@ -71,6 +69,42 @@ def development_image(
         dockerfile=docker_file_name,
         tag=tag,
         target="development-image",
+    )[0]
+    image_tag: str = image.tags[0]
+    yield image_tag
+    docker_client.images.remove(image_tag, force=True)
+
+
+@pytest.fixture(scope="session")
+def black_test_image(
+    docker_client, docker_image_test_project, docker_file_name
+) -> str:
+    path: str = str(docker_image_test_project.project_path)
+    tag: str = str(uuid4())
+
+    image: Image = docker_client.images.build(
+        path=path,
+        dockerfile=docker_file_name,
+        tag=tag,
+        target="black-test-image",
+    )[0]
+    image_tag: str = image.tags[0]
+    yield image_tag
+    docker_client.images.remove(image_tag, force=True)
+
+
+@pytest.fixture(scope="session")
+def test_image(
+    docker_client, docker_image_test_project, docker_file_name
+) -> str:
+    path: str = str(docker_image_test_project.project_path)
+    tag: str = str(uuid4())
+
+    image: Image = docker_client.images.build(
+        path=path,
+        dockerfile=docker_file_name,
+        tag=tag,
+        target="test-image",
     )[0]
     image_tag: str = image.tags[0]
     yield image_tag
