@@ -1,3 +1,5 @@
+[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![codecov](https://codecov.io/gh/max-pfeiffer/uvicorn-poetry-project-template/branch/main/graph/badge.svg?token=WQI2SJJLZN)](https://codecov.io/gh/max-pfeiffer/uvicorn-poetry-project-template)
 ![pipeline workflow](https://github.com/max-pfeiffer/uvicorn-poetry-project-template/actions/workflows/pipeline.yml/badge.svg)
 # uvicorn-poetry-project-template
@@ -22,7 +24,7 @@ poetry run uvicorn --workers 1 --host 0.0.0.0 --port 80 app.main:app
 ```
 Build the production Docker image:
 ```shell
-docker build --target production-image --tag my-application:1.0.0 .
+docker build --tag my-application:1.0.0 .
 ```
 Run the containerized application:
 ```shell
