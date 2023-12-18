@@ -2,6 +2,7 @@ from pathlib import Path
 
 import toml
 from pytest_cookies.plugin import Result
+from dockerfile_parse import DockerfileParser
 
 
 def test_default_config(cookies) -> None:
@@ -22,3 +23,8 @@ def test_default_config(cookies) -> None:
     assert toml_data["tool"]["poetry"]["version"] == "0.0.0"
     assert toml_data["tool"]["poetry"]["description"] == ""
     assert toml_data["tool"]["poetry"]["authors"] == []
+
+    dockerfile: Path = result.project_path / "Dockerfile"
+    dfp = DockerfileParser(path=str(dockerfile))
+
+    assert "3.12.0-slim-bookworm" in dfp.baseimage
