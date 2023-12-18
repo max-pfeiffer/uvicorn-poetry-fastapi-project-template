@@ -7,29 +7,32 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: 3.11
       - name: Install Poetry
-        uses: abatilo/actions-poetry@v2.0.0
+        uses: snok/install-poetry@v1
         with:
-          poetry-version: 1.1.11
+          version: 1.7.1
+          virtualenvs-in-project: true
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}        
       - name: Install dependencies
         run: |
-          poetry config virtualenvs.in-project true
-          poetry install --no-root
+          poetry install --no-interaction --no-root
       - name: Run all tests with pytest
         run: |
           source .venv/bin/activate
-          export DOCKER_BUILDKIT=1
-          pytest
-          pytest --cov=./ --cov-report=xml
+          pytest --cov --cov-report=xml:coverage_report.xml
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
+          files: ./coverage_report.xml
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
