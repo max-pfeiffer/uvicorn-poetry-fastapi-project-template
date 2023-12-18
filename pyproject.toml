@@ -18,6 +18,7 @@ pytest = "7.4.3"
 pre-commit = "3.6.0"
 pytest-cookies = "0.7.0"
 pytest-cov = "4.1.0"
+toml = "0.10.2"
 
 # https://docs.pytest.org/en/latest/reference/customize.html
 [tool.pytest.ini_options]
