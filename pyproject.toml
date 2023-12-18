@@ -25,7 +25,7 @@ testpaths = [
 
 [tool.black]
 line-length = 80
-target-version = ['py39']
+target-version = ['py311']
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
