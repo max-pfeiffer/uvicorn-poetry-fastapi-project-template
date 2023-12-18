@@ -1,6 +1,6 @@
 # Be aware that you need to specify these arguments before the first FROM
 # see: https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-FROM pfeiffermax/uvicorn-poetry:3.2.0-python3.11.6-slim-bookworm
+FROM pfeiffermax/uvicorn-poetry:3.2.0-python{{ cookiecutter.python_version }}-{{ cookiecutter.operating_system_variant }}
 
 # install [tool.poetry.dependencies]
 # this will install virtual environment into /.venv because of POETRY_VIRTUALENVS_IN_PROJECT=true

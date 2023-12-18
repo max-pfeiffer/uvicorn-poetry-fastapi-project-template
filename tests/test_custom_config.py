@@ -2,6 +2,7 @@ from pathlib import Path
 
 import toml
 from pytest_cookies.plugin import Result
+from dockerfile_parse import DockerfileParser
 
 
 def test_custom_config(cookies) -> None:
@@ -17,6 +18,8 @@ def test_custom_config(cookies) -> None:
             "project_description": "A project description which does make a lot of sense.",
             "author_name": "Jane Doe",
             "author_email": "jane.doe@unknown.com",
+            "python_version": "3.10.13",
+            "operating_system_variant": "bookworm",
         }
     )
 
@@ -35,3 +38,8 @@ def test_custom_config(cookies) -> None:
     assert toml_data["tool"]["poetry"]["authors"] == [
         "Jane Doe <jane.doe@unknown.com>"
     ]
+
+    dockerfile: Path = result.project_path / "Dockerfile"
+    dfp = DockerfileParser(path=str(dockerfile))
+
+    assert "3.10.13-bookworm" in dfp.baseimage
