@@ -1,5 +1,5 @@
-# Be aware that you need to specify these arguments before the first FROM
-# see: https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
+# Using an image for dependency build stage which provides Poetry
+# see: https://github.com/max-pfeiffer/python-poetry/blob/main/build/Dockerfile
 FROM pfeiffermax/python-poetry:1.8.0-poetry1.7.1-python{{ cookiecutter.python_version }}-{{ cookiecutter.operating_system_variant }} as dependencies-build-stage
 ENV POETRY_VIRTUALENVS_IN_PROJECT=true \
     POETRY_CACHE_DIR="/application_root/.cache" \
@@ -16,6 +16,7 @@ WORKDIR ${PYTHONPATH}
 COPY ./pyproject.toml ${PYTHONPATH}
 RUN poetry install --no-interaction --no-root --without dev
 
+# Using the standard Python image here to have the least possible image size
 FROM python:{{ cookiecutter.python_version }}-{{ cookiecutter.operating_system_variant }} as production-image
 ARG APPLICATION_SERVER_PORT=8000
 
