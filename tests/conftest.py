@@ -13,11 +13,6 @@ def docker_client() -> docker.client:
 
 
 @pytest.fixture(scope="session")
-def docker_file_name() -> str:
-    return "Dockerfile"
-
-
-@pytest.fixture(scope="session")
 def docker_image_test_project(cookies_session):
     result: Result = cookies_session.bake(
         extra_context={
@@ -29,27 +24,26 @@ def docker_image_test_project(cookies_session):
         }
     )
 
-    # Install project dependencies with Poetry
+    # Create Poetry lock file for building Docker container
     completed_process: CompletedProcess = run(
-        ["poetry", "install"], cwd=result.project_path
+        ["poetry", "lock"], cwd=result.project_path
     )
     if completed_process.returncode > 0:
-        raise Exception("Dependencies were not installed with Poetry.")
+        raise Exception("Lock file could not be created with Poetry.")
 
     return result
 
 
 @pytest.fixture(scope="session")
-def production_image(
-    docker_client, docker_image_test_project, docker_file_name
-) -> str:
+def production_image(docker_client, docker_image_test_project) -> str:
     path: str = str(docker_image_test_project.project_path)
     tag: str = str(uuid4())
 
     image: Image = docker_client.images.build(
         path=path,
-        dockerfile=docker_file_name,
+        dockerfile="Dockerfile",
         tag=tag,
+        target="production-image",
     )[0]
     image_tag: str = image.tags[0]
     yield image_tag

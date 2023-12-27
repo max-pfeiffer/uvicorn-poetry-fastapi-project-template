@@ -3,25 +3,30 @@
 [![codecov](https://codecov.io/gh/max-pfeiffer/uvicorn-poetry-project-template/branch/main/graph/badge.svg?token=WQI2SJJLZN)](https://codecov.io/gh/max-pfeiffer/uvicorn-poetry-project-template)
 ![pipeline workflow](https://github.com/max-pfeiffer/uvicorn-poetry-project-template/actions/workflows/pipeline.yml/badge.svg)
 # uvicorn-poetry-project-template
-[Cookiecutter](https://github.com/cookiecutter/cookiecutter) project template for the
-[uvicorn-poetry Docker image](https://github.com/max-pfeiffer/uvicorn-poetry).
+[Cookiecutter](https://github.com/cookiecutter/cookiecutter) project template for starting a containerized Fast API project.
 
-This Docker image provides a platform to run Python applications with [Uvicorn](https://github.com/encode/uvicorn) on [Kubernetes](https://kubernetes.io/) container orchestration system.
-It provides [Poetry](https://python-poetry.org/) for managing dependencies and setting up a virtual environment in the container.
+It uses [Poetry](https://python-poetry.org/) for managing dependencies and setting up a virtual environment locally and in the container.
+
+The project is set up to produce a Docker image to run your application with [Uvicorn](https://github.com/encode/uvicorn) on [Kubernetes](https://kubernetes.io/) container orchestration system.
+
 
 ## Quick Start
 [Install Cookiecutter](https://cookiecutter.readthedocs.io/en/latest/installation.html) on your machine. Then:
 ```shell
 cookiecutter https://github.com/max-pfeiffer/uvicorn-poetry-project-template
 ```
+
+### Run with Poetry
 In project directory install dependencies:
 ```shell
 poetry install
 ```
 Run application in project directory:
 ```shell
-poetry run uvicorn --workers 1 --host 0.0.0.0 --port 80 app.main:app
+poetry run uvicorn --workers 1 --host 0.0.0.0 --port 8000 app.main:app
 ```
+
+### Build and run Docker image
 Build the production Docker image:
 ```shell
 docker build --tag my-application:1.0.0 .

@@ -26,6 +26,7 @@ def test_custom_config(cookies) -> None:
     assert result.project_path.name == "seriously-silly-project-name"
     assert result.project_path.is_dir()
 
+    # Check if pyproject.toml became expanded correctly
     pyproject_toml_file: Path = result.project_path / "pyproject.toml"
     toml_data: dict = toml.load(pyproject_toml_file)
 
@@ -39,7 +40,9 @@ def test_custom_config(cookies) -> None:
         "Jane Doe <jane.doe@unknown.com>"
     ]
 
+    # Check if Dockerfile became expanded correctly
     dockerfile: Path = result.project_path / "Dockerfile"
     dfp = DockerfileParser(path=str(dockerfile))
 
-    assert "3.10.13-bookworm" in dfp.baseimage
+    assert dfp.is_multistage
+    assert all(["3.10.13-bookworm" in image for image in dfp.parent_images])
