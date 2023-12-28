@@ -20,6 +20,7 @@ def test_custom_config(cookies) -> None:
             "author_email": "jane.doe@unknown.com",
             "python_version": "3.10.13",
             "operating_system_variant": "bookworm",
+            "github_workflow": False,
         }
     )
 
@@ -46,3 +47,9 @@ def test_custom_config(cookies) -> None:
 
     assert dfp.is_multistage
     assert all(["3.10.13-bookworm" in image for image in dfp.parent_images])
+
+    # Check for GitHub workflow
+    workflow: Path = (
+        result.project_path / ".github" / "workflows" / "pipeline.yml"
+    )
+    assert not workflow.exists()
