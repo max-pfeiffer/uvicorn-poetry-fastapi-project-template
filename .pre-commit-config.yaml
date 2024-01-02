@@ -7,7 +7,10 @@ repos:
       - id: detect-private-key
       - id: check-added-large-files
   - repo: https://github.com/psf/black
-    rev: 23.11.0
+    rev: 23.12.1
     hooks:
       - id: black
-        language_version: python3.9
+        language_version: python3.11
+        args:
+          - "--config"
+          - "./pyproject.toml"
