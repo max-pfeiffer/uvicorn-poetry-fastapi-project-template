@@ -1,6 +1,6 @@
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![codecov](https://codecov.io/gh/max-pfeiffer/uvicorn-poetry-project-template/branch/main/graph/badge.svg?token=WQI2SJJLZN)](https://codecov.io/gh/max-pfeiffer/uvicorn-poetry-project-template)
+[![codecov](https://codecov.io/gh/max-pfeiffer/uvicorn-poetry-fastapi-project-template/graph/badge.svg?token=OFQU8YVFAR)](https://codecov.io/gh/max-pfeiffer/uvicorn-poetry-fastapi-project-template)
 ![pipeline workflow](https://github.com/max-pfeiffer/uvicorn-poetry-project-template/actions/workflows/pipeline.yml/badge.svg)
 # uvicorn-poetry-project-template
 [Cookiecutter](https://github.com/cookiecutter/cookiecutter) project template for starting a containerized Fast API project.
