@@ -29,7 +29,7 @@ testpaths = [
 
 # https://coverage.readthedocs.io/en/latest/config.html
 [tool.coverage.run]
-omit = "{{cookiecutter.project_slug}}"
+omit = ["{{cookiecutter.project_slug}}"]
 
 [tool.black]
 line-length = 80
