@@ -27,6 +27,10 @@ testpaths = [
     "tests",
 ]
 
+# https://coverage.readthedocs.io/en/latest/config.html
+[tool.coverage.run]
+omit = "{{cookiecutter.project_slug}}"
+
 [tool.black]
 line-length = 80
 target-version = ['py311']

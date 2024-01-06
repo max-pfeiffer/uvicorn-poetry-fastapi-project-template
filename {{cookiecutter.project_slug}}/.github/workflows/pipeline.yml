@@ -60,4 +60,4 @@ jobs:
       - name: Run tests
         run: |
           source .venv/bin/activate
-          pytest tests/build_image --cov --cov-report=xml:build_image_coverage_report.xml
+          pytest
