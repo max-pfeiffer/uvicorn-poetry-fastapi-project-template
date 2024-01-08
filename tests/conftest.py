@@ -1,11 +1,11 @@
-import os
-from subprocess import run, CompletedProcess
 from uuid import uuid4
 
 import docker
 import pytest
 from docker.models.images import Image
 from pytest_cookies.plugin import Result
+
+from tests.utils import setup_lock_file
 
 
 @pytest.fixture(scope="session")
@@ -14,7 +14,7 @@ def docker_client() -> docker.client:
 
 
 @pytest.fixture(scope="session")
-def docker_image_test_project(cookies_session):
+def hot_cookie(cookies_session) -> Result:
     result: Result = cookies_session.bake(
         extra_context={
             "project_name": "Test Docker build",
@@ -24,26 +24,14 @@ def docker_image_test_project(cookies_session):
             "author_email": "max@maxpfeiffer.ch",
         }
     )
-
-    # Popping out VIRTUAL_ENV which points to projects virtual environment,
-    # otherwise our projects virtual environment variable will be used.
-    # We want to create a new virtual environment in result.project_path.
-    environment_variables = os.environ.copy()
-    environment_variables.pop("VIRTUAL_ENV")
-
-    # Create Poetry lock file for building Docker container
-    completed_process: CompletedProcess = run(
-        ["poetry", "lock"], cwd=result.project_path, env=environment_variables
-    )
-    if completed_process.returncode > 0:
-        raise Exception("Lock file could not be created with Poetry.")
-
     return result
 
 
 @pytest.fixture(scope="session")
-def production_image(docker_client, docker_image_test_project) -> str:
-    path: str = str(docker_image_test_project.project_path)
+def production_image(docker_client, hot_cookie: Result) -> str:
+    setup_lock_file(hot_cookie)
+
+    path: str = str(hot_cookie.project_path)
     tag: str = str(uuid4())
 
     image: Image = docker_client.images.build(

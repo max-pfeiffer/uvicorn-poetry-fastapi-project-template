@@ -11,7 +11,9 @@ The project is set up to produce a Docker image to run your application with [Uv
 
 
 ## Quick Start
-[Install Cookiecutter](https://cookiecutter.readthedocs.io/en/latest/installation.html) on your machine. Then:
+First [install Poetry](https://python-poetry.org/docs/#installation) on your machine.
+
+Then [install Cookiecutter](https://cookiecutter.readthedocs.io/en/latest/installation.html) on your machine. Create your project using the template:
 ```shell
 cookiecutter https://github.com/max-pfeiffer/uvicorn-poetry-project-template
 ```
