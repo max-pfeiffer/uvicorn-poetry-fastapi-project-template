@@ -1,8 +1,8 @@
 from pathlib import Path
 
 import toml
-from pytest_cookies.plugin import Result
 from dockerfile_parse import DockerfileParser
+from pytest_cookies.plugin import Result
 
 
 def test_custom_config(cookies) -> None:

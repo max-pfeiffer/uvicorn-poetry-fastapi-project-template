@@ -1,3 +1,4 @@
+import os
 from subprocess import run, CompletedProcess
 from uuid import uuid4
 
@@ -24,9 +25,15 @@ def docker_image_test_project(cookies_session):
         }
     )
 
+    # Popping out VIRTUAL_ENV which points to projects virtual environment,
+    # otherwise our projects virtual environment variable will be used.
+    # We want to create a new virtual environment in result.project_path.
+    environment_variables = os.environ.copy()
+    environment_variables.pop("VIRTUAL_ENV")
+
     # Create Poetry lock file for building Docker container
     completed_process: CompletedProcess = run(
-        ["poetry", "lock"], cwd=result.project_path
+        ["poetry", "lock"], cwd=result.project_path, env=environment_variables
     )
     if completed_process.returncode > 0:
         raise Exception("Lock file could not be created with Poetry.")
