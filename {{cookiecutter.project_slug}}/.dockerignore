@@ -1,5 +1,6 @@
 .venv
 .coverage
+.pre-commit-config.yaml
 Dockerfile
 README.md
 test_coverage_reports/

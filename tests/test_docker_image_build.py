@@ -2,6 +2,7 @@ from time import sleep
 from uuid import uuid4
 
 import pytest
+from docker.client import DockerClient
 from docker.models.containers import Container
 from furl import furl
 from httpx import get, Response
@@ -31,7 +32,9 @@ def call_api_endpoints():
     "cleaned_up_test_container", [str(uuid4())], indirect=True
 )
 def test_production_image_build(
-    docker_client, production_image, cleaned_up_test_container
+    docker_client: DockerClient,
+    production_image: str,
+    cleaned_up_test_container,
 ):
     test_container: Container = docker_client.containers.run(
         production_image,

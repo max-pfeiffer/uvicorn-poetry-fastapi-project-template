@@ -2,5 +2,6 @@
 .venv
 .coverage
 .pytest_cache
+.vscode
 __pycache__/
 coverage_report.xml
