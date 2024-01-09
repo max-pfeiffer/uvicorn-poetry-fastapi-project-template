@@ -55,8 +55,11 @@ def environment_variables(hot_cookie: Result) -> dict:
         cleaned_paths.insert(0, str(virtual_environment_binary_path))
         environment_variables["PATH"] = os.pathsep.join(cleaned_paths)
 
-    # Setting the environment variable pointing to the new virtual environment
+    # Pointing VIRTUAL_ENV to the new virtual environment
     environment_variables["VIRTUAL_ENV"] = str(virtual_environment_path)
+
+    # Configuring Poetry to put the virtual environment in project directory
+    environment_variables["POETRY_VIRTUALENVS_IN_PROJECT"] = "true"
 
     return environment_variables
 
