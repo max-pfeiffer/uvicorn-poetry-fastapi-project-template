@@ -42,18 +42,18 @@ def environment_variables(hot_cookie: Result) -> dict:
     # "Deactivate" the old and "activate" the new virtual environment: strip the current virtual environment path and
     # add the new virtual environment path.
     # See: https://docs.python.org/3/library/venv.html#how-venvs-work
-    if sys.prefix != sys.base_prefix:
-        paths: list[str] = environment_variables["PATH"].split(os.pathsep)
+    paths: list[str] = environment_variables["PATH"].split(os.pathsep)
 
+    if sys.prefix != sys.base_prefix:
         old_virtual_environment_binary_path: str = f"{sys.prefix}/bin"
-        cleaned_paths: list[str] = [
+        paths: list[str] = [
             item
             for item in paths
             if item != old_virtual_environment_binary_path
         ]
 
-        cleaned_paths.insert(0, str(virtual_environment_binary_path))
-        environment_variables["PATH"] = os.pathsep.join(cleaned_paths)
+    paths.insert(0, str(virtual_environment_binary_path))
+    environment_variables["PATH"] = os.pathsep.join(paths)
 
     # Pointing VIRTUAL_ENV to the new virtual environment
     environment_variables["VIRTUAL_ENV"] = str(virtual_environment_path)
