@@ -9,7 +9,7 @@ python = "3.11.*"
 
 [tool.poetry.dev-dependencies]
 black = "24.1.1"
-cookiecutter = "2.5.0"
+cookiecutter = "2.6.0"
 coverage = "7.4.1"
 docker = "7.0.0"
 furl = "2.1.3"
