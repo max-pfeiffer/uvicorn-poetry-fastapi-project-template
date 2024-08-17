@@ -1,3 +1,5 @@
+"""Test constants."""
+
 SLEEP_TIME: float = 3.0
 LOCALHOST: str = "http://0.0.0.0"
 HELLO_WORLD: str = "Hello World!"

@@ -1,3 +1,5 @@
+"""Tests for custom config."""
+
 from pathlib import Path
 
 import pytest
@@ -7,9 +9,7 @@ from pytest_cookies.plugin import Result
 
 
 @pytest.mark.parametrize("python_version", ["3.12.0", "3.11.6", "3.10.13"])
-@pytest.mark.parametrize(
-    "operating_system_variant", ["slim-bookworm", "bookworm"]
-)
+@pytest.mark.parametrize("operating_system_variant", ["slim-bookworm", "bookworm"])
 @pytest.mark.parametrize("github_workflow", [True, False])
 def test_custom_config(
     cookies,
@@ -26,7 +26,8 @@ def test_custom_config(
         extra_context={
             "project_name": "Seriously silly pRoject naMe",
             "project_version": "21.76.5",
-            "project_description": "A project description which does make a lot of sense.",
+            "project_description": "A project description which does make "
+            "a lot of sense.",
             "author_name": "Jane Doe",
             "author_email": "jane.doe@unknown.com",
             "python_version": python_version,
@@ -48,9 +49,7 @@ def test_custom_config(
         toml_data["tool"]["poetry"]["description"]
         == "A project description which does make a lot of sense."
     )
-    assert toml_data["tool"]["poetry"]["authors"] == [
-        "Jane Doe <jane.doe@unknown.com>"
-    ]
+    assert toml_data["tool"]["poetry"]["authors"] == ["Jane Doe <jane.doe@unknown.com>"]
 
     # Check if Dockerfile became expanded correctly
     dockerfile: Path = result.project_path / "Dockerfile"
@@ -65,9 +64,7 @@ def test_custom_config(
     )
 
     # Check for GitHub workflow
-    workflow: Path = (
-        result.project_path / ".github" / "workflows" / "pipeline.yml"
-    )
+    workflow: Path = result.project_path / ".github" / "workflows" / "pipeline.yml"
     if github_workflow:
         assert workflow.exists()
     else:
