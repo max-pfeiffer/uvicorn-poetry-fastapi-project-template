@@ -12,7 +12,7 @@ jobs:
         uses: ./.github/actions/setup-environment
       - name: Install dependencies
         run: |
-          poetry install --no-interaction --no-root
+          poetry install --with dev --no-interaction --no-root
       - name: Run ruff
         run: |
           poetry run pre-commit run -a 
@@ -30,8 +30,7 @@ jobs:
           poetry install --no-interaction --no-root
       - name: Run all tests with pytest
         run: |
-          source .venv/bin/activate
-          pytest --cov --cov-report=xml:coverage_report.xml
+          poetry run pytest --with dev --cov --cov-report=xml:coverage_report.xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
