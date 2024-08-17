@@ -13,11 +13,10 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install --no-interaction --no-root
-      - name: Run pylint and black
+      - name: Run ruff
         run: |
-          source .venv/bin/activate
-          black --check .
-  
+          poetry run pre-commit run -a 
+
   run-tests:
     needs: code-quality    
     runs-on: ubuntu-22.04

@@ -1,3 +1,5 @@
+"""Tests for default config."""
+
 from pathlib import Path
 
 import toml
@@ -33,7 +35,5 @@ def test_default_config(cookies) -> None:
     assert all(["3.12.0-slim-bookworm" in image for image in dfp.parent_images])
 
     # Check for GitHub workflow
-    workflow: Path = (
-        result.project_path / ".github" / "workflows" / "pipeline.yml"
-    )
+    workflow: Path = result.project_path / ".github" / "workflows" / "pipeline.yml"
     assert workflow.exists()

@@ -1,3 +1,5 @@
+"""Post gen hook for Cookiecutter."""
+
 from pathlib import Path
 from shutil import rmtree
 

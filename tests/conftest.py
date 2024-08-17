@@ -1,28 +1,40 @@
+"""Test fixtures."""
+
 import os
 import sys
 from pathlib import Path
-from subprocess import run, CompletedProcess
+from subprocess import CompletedProcess, run
 from uuid import uuid4
 
 import docker
 import pytest
-from docker.models.images import Image
 from docker.client import DockerClient
+from docker.models.images import Image
 from pytest_cookies.plugin import Result
 
 
 @pytest.fixture(scope="session")
 def docker_client() -> DockerClient:
+    """Docker client fixture.
+
+    :return:
+    """
     return docker.client.from_env()
 
 
 @pytest.fixture(scope="session")
 def hot_cookie(cookies_session) -> Result:
+    """Generate Cookiecutter project.
+
+    :param cookies_session:
+    :return:
+    """
     result: Result = cookies_session.bake(
         extra_context={
             "project_name": "Test Docker build",
             "project_version": "1.0.0",
-            "project_description": "This project is used to test the docker image build process.",
+            "project_description": "This project is used to test "
+            "the docker image build process.",
             "author_name": "Max Pfeiffer",
             "author_email": "max@maxpfeiffer.ch",
         }
@@ -32,6 +44,11 @@ def hot_cookie(cookies_session) -> Result:
 
 @pytest.fixture(scope="session")
 def environment_variables(hot_cookie: Result) -> dict:
+    """Fixture for setting up environment variables and virtual environment.
+
+    :param hot_cookie:
+    :return:
+    """
     # Configuring paths
     virtual_environment_path: Path = hot_cookie.project_path / ".venv"
     virtual_environment_binary_path: Path = virtual_environment_path / "bin"
@@ -39,17 +56,15 @@ def environment_variables(hot_cookie: Result) -> dict:
     # Acquiring system environment variables
     environment_variables: dict = os.environ.copy()
 
-    # "Deactivate" the old and "activate" the new virtual environment: strip the current virtual environment path and
-    # add the new virtual environment path.
+    # "Deactivate" the old and "activate" the new virtual environment: strip the current
+    # virtual environment path and add the new virtual environment path.
     # See: https://docs.python.org/3/library/venv.html#how-venvs-work
     if sys.prefix != sys.base_prefix:
         paths: list[str] = environment_variables["PATH"].split(os.pathsep)
 
         old_virtual_environment_binary_path: str = f"{sys.prefix}/bin"
         cleaned_paths: list[str] = [
-            item
-            for item in paths
-            if item != old_virtual_environment_binary_path
+            item for item in paths if item != old_virtual_environment_binary_path
         ]
 
         cleaned_paths.insert(0, str(virtual_environment_binary_path))
@@ -66,6 +81,12 @@ def environment_variables(hot_cookie: Result) -> dict:
 
 @pytest.fixture(scope="session")
 def lock_file_context(hot_cookie: Result, environment_variables: dict) -> dict:
+    """Context for Poetry lock file.
+
+    :param hot_cookie:
+    :param environment_variables:
+    :return:
+    """
     # Create Poetry lock file for building Docker container
     completed_process: CompletedProcess = run(
         ["poetry", "lock"],
@@ -82,6 +103,12 @@ def lock_file_context(hot_cookie: Result, environment_variables: dict) -> dict:
 def virtual_environment_context(
     hot_cookie: Result, environment_variables: dict
 ) -> dict:
+    """Install package dependencies in Cookiecutter project.
+
+    :param hot_cookie:
+    :param environment_variables:
+    :return:
+    """
     # Install virtual environment with Poetry
     completed_process: CompletedProcess = run(
         ["poetry", "install", "--no-interaction", "--no-root"],
@@ -98,6 +125,13 @@ def virtual_environment_context(
 def production_image(
     docker_client: DockerClient, hot_cookie: Result, lock_file_context: dict
 ) -> str:
+    """Production image fixture.
+
+    :param docker_client:
+    :param hot_cookie:
+    :param lock_file_context:
+    :return:
+    """
     path: str = str(hot_cookie.project_path)
     tag: str = str(uuid4())
 
@@ -114,6 +148,12 @@ def production_image(
 
 @pytest.fixture(scope="function")
 def cleaned_up_test_container(docker_client: DockerClient, request) -> None:
+    """Test container fixture.
+
+    :param docker_client:
+    :param request:
+    :return:
+    """
     test_container_name: str = request.param
     yield test_container_name
     test_container = docker_client.containers.get(test_container_name)
