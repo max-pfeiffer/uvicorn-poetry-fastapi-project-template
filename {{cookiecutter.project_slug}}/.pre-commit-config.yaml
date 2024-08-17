@@ -6,8 +6,19 @@ repos:
       - id: check-merge-conflict
       - id: detect-private-key
       - id: check-added-large-files
-  - repo: https://github.com/psf/black
-    rev: 23.11.0
+  - repo: local
     hooks:
-      - id: black
-        language_version: python3.9
+      - id: ruff
+        name: ruff
+        entry: ruff check
+        language: python
+        types_or: [python, pyi]
+        args: ["--fix", "--config", "pyproject.toml"]
+        require_serial: true
+      - id: ruff-format
+        name: ruff-format
+        entry: ruff format
+        language: python
+        types_or: [python, pyi]
+        args: ["--config", "pyproject.toml"]
+        require_serial: true
