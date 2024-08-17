@@ -4,27 +4,13 @@ on: push
 
 jobs:
   code-quality:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: 1.7.1
-          virtualenvs-in-project: true
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Set up Python environment
+        uses: ./.github/actions/setup-environment
       - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
           poetry install --no-interaction --no-root
       - name: Run pylint and black
@@ -34,25 +20,12 @@ jobs:
   
   run-tests:
     needs: code-quality    
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: 1.7.1
-          virtualenvs-in-project: true
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}        
+      - name: Set up Python environment
+        uses: ./.github/actions/setup-environment
       - name: Install dependencies
         run: |
           poetry install --no-interaction --no-root
@@ -61,7 +34,7 @@ jobs:
           source .venv/bin/activate
           pytest --cov --cov-report=xml:coverage_report.xml
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: ./coverage_report.xml
           fail_ci_if_error: true
