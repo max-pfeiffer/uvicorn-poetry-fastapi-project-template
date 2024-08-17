@@ -15,10 +15,10 @@ runs:
   using: composite
   steps:
     - name: Setup Poetry
-      run: pipx install poetry==${{ inputs.poetry-version }}
+      run: pipx install poetry=={{ "${{ inputs.poetry-version }}" }}
       shell: bash
-    - name: Setup Python ${{ inputs.python-version }}
+    - name: Setup Python {{ "${{ inputs.python-version }}" }}
       uses: actions/setup-python@v5
       with:
-        python-version: ${{ inputs.python-version }}
+        python-version: {{ "${{ inputs.python-version }}" }}
         cache: poetry
