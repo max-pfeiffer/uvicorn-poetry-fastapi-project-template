@@ -33,8 +33,8 @@ ENV PYTHONUNBUFFERED=1 \
 ENV PATH="$VIRTUAL_ENVIRONMENT_PATH/bin:$PATH"
 
 # Principle of least privilege: create a new user for running the application
-RUN groupadd -g 1001 python_application && \
-    useradd -r -u 1001 -g python_application python_application
+RUN groupadd -g 10001 python_application && \
+    useradd -r -u 10001 -g python_application python_application
 
 # Set the WORKDIR to the application root.
 # https://www.uvicorn.org/settings/#development
@@ -53,7 +53,7 @@ COPY --chown=python_application:python_application /app ${PYTHONPATH}/app/
 EXPOSE ${APPLICATION_SERVER_PORT}
 
 # Use the unpriveledged user to run the application
-USER 1001
+USER 10001
 
 # Run the uvicorn application server.
 CMD exec uvicorn --workers 1 --host 0.0.0.0 --port $APPLICATION_SERVER_PORT app.main:app
