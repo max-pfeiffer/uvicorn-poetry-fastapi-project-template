@@ -1,6 +1,10 @@
 name: Pipeline
 
-on: push
+on:
+  push:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   code-quality:
