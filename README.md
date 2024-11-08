@@ -2,7 +2,7 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![codecov](https://codecov.io/gh/max-pfeiffer/uvicorn-poetry-fastapi-project-template/graph/badge.svg?token=OFQU8YVFAR)](https://codecov.io/gh/max-pfeiffer/uvicorn-poetry-fastapi-project-template)
 ![pipeline workflow](https://github.com/max-pfeiffer/uvicorn-poetry-project-template/actions/workflows/pipeline.yml/badge.svg)
-# uvicorn-poetry-project-template
+# Uvicorn Poetry FastAPI Project Template
 [Cookiecutter](https://github.com/cookiecutter/cookiecutter) project template for starting a containerized Fast API project.
 
 It uses [Poetry](https://python-poetry.org/) for managing dependencies and setting up a virtual environment locally and in the container.
