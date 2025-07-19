@@ -9,7 +9,7 @@ python = "3.11.*"
 
 [tool.poetry.dev-dependencies]
 cookiecutter = "2.6.0"
-coverage = "7.6.12"
+coverage = "7.9.2"
 docker = "7.1.0"
 dockerfile-parse = "2.0.1"
 furl = "2.1.4"
